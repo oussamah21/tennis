@@ -13,10 +13,26 @@ public class ScoreDisplayer {
     }
 
     public void displayAdvantage(Player player) {
-        System.out.println("Advantage: " + player.name());
+        System.out.println("Advantage: " + player.getName());
     }
 
     public void displayWinner(Player player) {
-        System.out.println("Player " + player.name() + " wins the game");
+        System.out.println("Player " + player.getName() + " wins the game");
+    }
+
+    public void displayOpeningBanner() {
+
+         String banner = """
+                   _____              _      _  __     _       \s
+                  |_   _|__ _ _  _ _ (_)___ | |/ /__ _| |_ __ _\s
+                    | |/ -_) ' \\| ' \\| (_-< | ' </ _` |  _/ _` |
+                    |_|\\___|_||_|_||_|_/__/ |_|\\_\\__,_|\\__\\__,_|
+                                  
+                                  
+                 """;
+
+        System.out.println(banner);
+
+
     }
 }

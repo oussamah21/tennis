@@ -29,7 +29,7 @@ class TennisGameTest {
     @Test
     void testGameWinner() throws TennisException {
         tennisGame.playTennisGame("AAAA");
-        assertTrue(tennisGame.hasGameWinner(), "The game should have a winner.");
+        assertTrue(tennisGame.getGameWinner().isPresent(), "The game should have a winner.");
     }
 
 
@@ -70,10 +70,10 @@ class TennisGameTest {
     @Test
     void testScoreDisplayedDuringGame() throws TennisException {
         tennisGame.playTennisGame("ABABBB");
-        Mockito.verify(scoreDisplayer,Mockito.times(0)).displayGameScore("0", "15");
-        Mockito.verify(scoreDisplayer,Mockito.times(1)).displayGameScore("15", "0");
-        Mockito.verify(scoreDisplayer,Mockito.times(1)).displayGameScore("15", "15");
-        Mockito.verify(scoreDisplayer,Mockito.times(1)).displayGameScore("30", "15");
+        Mockito.verify(scoreDisplayer, Mockito.times(0)).displayGameScore("0", "15");
+        Mockito.verify(scoreDisplayer, Mockito.times(1)).displayGameScore("15", "0");
+        Mockito.verify(scoreDisplayer, Mockito.times(1)).displayGameScore("15", "15");
+        Mockito.verify(scoreDisplayer, Mockito.times(1)).displayGameScore("30", "15");
 
     }
 }
