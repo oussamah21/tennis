@@ -2,7 +2,8 @@ package com.kata.domain;
 
 import com.kata.exception.TennisException;
 import com.kata.model.Player;
-import com.kata.util.ScoreDisplayer;
+import com.kata.ports.out.ScoreDisplayerOutputPort;
+
 import java.util.Optional;
 
 public class TennisGame {
@@ -12,69 +13,80 @@ public class TennisGame {
     private Optional<Player> gameWinner = Optional.empty();
     private Optional<Player> gameAdvantage = Optional.empty();
 
-    private final ScoreDisplayer scoreDisplayer;
-
     private static final String[] SCORE = {"0", "15", "30", "40"};
 
-    public TennisGame(Player playerOne, Player playerTwo, ScoreDisplayer scoreDisplayer) {
+    private final ScoreDisplayerOutputPort scoreDisplayerPort;
+
+    private boolean isDeuce;
+
+
+    public TennisGame(Player playerOne, Player playerTwo, ScoreDisplayerOutputPort scoreDisplayerPort) {
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
-        this.scoreDisplayer = scoreDisplayer;
+        this.scoreDisplayerPort = scoreDisplayerPort;
     }
 
     public void playTennisGame(String points) throws TennisException {
 
         for (char point : points.toCharArray()) {
+
             if (gameWinner.isPresent()) {
                 break;
             }
-
             if (point != playerOne.getName() && point != playerTwo.getName()) {
-                throw new TennisException("Invalid point: " + point);  // Throw exception if point is invalid
+                throw new TennisException("Invalid point: " + point);
             }
 
-            if (point == playerOne.getName()) {
-                playerOne.incrementScore();
-            } else {
-                playerTwo.incrementScore();
-            }
-            hasAdvantage();
-            hasGameWinner();
-            getGameScore();
+            updateScore(point);
+            checkForAdvantage();
+            checkForWinner();
+            checkForDeuce();
+            getScore();
         }
+
         if (gameWinner.isEmpty()) {
             throw new TennisException("The game sequence is incomplete. No winner was reached due to insufficient points.");
         }
     }
 
-    // Generate and return the game score message based on the current score
-    private void getGameScore() {
-
-        if (gameWinner.isPresent()) {
-           scoreDisplayer.displayWinner(gameWinner.get());
-        } else if (playerOne.isDeuce(playerTwo)) {
-           scoreDisplayer.displayDeuce();
-        } else if (gameAdvantage.isPresent()) {
-           scoreDisplayer.displayAdvantage(gameAdvantage.get());
+     void updateScore(char point) {
+        if (point == playerOne.getName()) {
+            playerOne.incrementScore();
         } else {
-            scoreDisplayer.displayGameScore(SCORE[playerOne.getScore()],SCORE[playerTwo.getScore()]);
+            playerTwo.incrementScore();
         }
     }
 
-    void hasGameWinner() {
-        if(playerOne.isWinner(playerTwo)){
+    void checkForWinner() {
+        if (playerOne.isWinner(playerTwo)) {
             gameWinner = Optional.of(playerOne);
-        } else if(playerTwo.isWinner(playerOne)){
+        } else if (playerTwo.isWinner(playerOne)) {
             gameWinner = Optional.of(playerTwo);
         }
 
     }
 
-    void hasAdvantage() {
-        if(playerOne.hasAdvantage(playerTwo)){
+    void checkForAdvantage() {
+        if (playerOne.hasAdvantage(playerTwo)) {
             gameAdvantage = Optional.of(playerOne);
-        } else if(playerTwo.hasAdvantage(playerOne)){
+        } else if (playerTwo.hasAdvantage(playerOne)) {
             gameAdvantage = Optional.of(playerTwo);
+        }
+    }
+
+    void checkForDeuce() {
+        isDeuce = playerOne.isDeuce(playerTwo);
+    }
+
+    void getScore(){
+        if (this.gameWinner.isPresent()) {
+            scoreDisplayerPort.displayWinner(this.gameWinner.get());
+        } else if (isDeuce()) {
+            scoreDisplayerPort.displayDeuce();
+        } else if (this.gameAdvantage.isPresent()) {
+            scoreDisplayerPort.displayAdvantage(this.gameAdvantage.get());
+        } else {
+            scoreDisplayerPort.displayGameScore(SCORE[this.playerOne.getScore()],SCORE[this.playerTwo.getScore()]);
         }
     }
 
@@ -82,6 +94,19 @@ public class TennisGame {
         return gameWinner;
     }
 
+    public Player getPlayerOne() {
+        return playerOne;
+    }
 
+    public Player getPlayerTwo() {
+        return playerTwo;
+    }
 
+    public Optional<Player> getGameAdvantage() {
+        return gameAdvantage;
+    }
+
+    public boolean isDeuce() {
+        return isDeuce;
+    }
 }
