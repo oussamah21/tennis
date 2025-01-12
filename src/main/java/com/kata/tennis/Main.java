@@ -1,4 +1,4 @@
-package com.kata;
+package com.kata.tennis;
 
 import com.kata.tennis.adapters.in.TennisGameScannerInput;
 import com.kata.tennis.adapters.out.ConsoleScoreDisplayerAdapter;
