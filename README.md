@@ -1,4 +1,4 @@
-# Energy Manager
+# Tennis Kata
 
 ## Context
 
