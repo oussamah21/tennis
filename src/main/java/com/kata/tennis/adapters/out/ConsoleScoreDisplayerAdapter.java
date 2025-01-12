@@ -1,7 +1,7 @@
-package com.kata.adapters.out;
+package com.kata.tennis.adapters.out;
 
-import com.kata.model.Player;
-import com.kata.ports.out.ScoreDisplayerOutputPort;
+import com.kata.tennis.domain.model.Player;
+import com.kata.tennis.ports.out.ScoreDisplayerOutputPort;
 
 public class ConsoleScoreDisplayerAdapter implements ScoreDisplayerOutputPort {
 
@@ -25,20 +25,4 @@ public class ConsoleScoreDisplayerAdapter implements ScoreDisplayerOutputPort {
         System.out.println("Player " + player.getName() + " wins the game");
     }
 
-    @Override
-    public void displayOpeningBanner() {
-
-        String banner = """
-                  _____              _      _  __     _       \s
-                 |_   _|__ _ _  _ _ (_)___ | |/ /__ _| |_ __ _\s
-                   | |/ -_) ' \\| ' \\| (_-< | ' </ _` |  _/ _` |
-                   |_|\\___|_||_|_||_|_/__/ |_|\\_\\__,_|\\__\\__,_|
-                                 
-                                 
-                """;
-
-        System.out.println(banner);
-
-
-    }
 }

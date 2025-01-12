@@ -1,8 +1,8 @@
-package com.kata.adapters.in;
+package com.kata.tennis.adapters.in;
 
-import com.kata.domain.TennisGame;
-import com.kata.exception.TennisException;
-import com.kata.ports.in.TennisGameInputPort;
+import com.kata.tennis.domain.application.TennisGame;
+import com.kata.tennis.domain.exception.TennisException;
+import com.kata.tennis.ports.in.TennisGameInputPort;
 
 import java.util.Scanner;
 

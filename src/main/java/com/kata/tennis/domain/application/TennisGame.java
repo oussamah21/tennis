@@ -1,8 +1,8 @@
-package com.kata.domain;
+package com.kata.tennis.domain.application;
 
-import com.kata.exception.TennisException;
-import com.kata.model.Player;
-import com.kata.ports.out.ScoreDisplayerOutputPort;
+import com.kata.tennis.domain.exception.TennisException;
+import com.kata.tennis.domain.model.Player;
+import com.kata.tennis.ports.out.ScoreDisplayerOutputPort;
 
 import java.util.Optional;
 
@@ -12,9 +12,6 @@ public class TennisGame {
 
     private Optional<Player> gameWinner = Optional.empty();
     private Optional<Player> gameAdvantage = Optional.empty();
-
-    private static final String[] SCORE = {"0", "15", "30", "40"};
-
     private final ScoreDisplayerOutputPort scoreDisplayerPort;
 
     private boolean isDeuce;
@@ -49,7 +46,7 @@ public class TennisGame {
         }
     }
 
-     void updateScore(char point) {
+     private void updateScore(char point) {
         if (point == playerOne.getName()) {
             playerOne.incrementScore();
         } else {
@@ -57,7 +54,7 @@ public class TennisGame {
         }
     }
 
-    void checkForWinner() {
+    private void checkForWinner() {
         if (playerOne.isWinner(playerTwo)) {
             gameWinner = Optional.of(playerOne);
         } else if (playerTwo.isWinner(playerOne)) {
@@ -66,7 +63,7 @@ public class TennisGame {
 
     }
 
-    void checkForAdvantage() {
+    private void checkForAdvantage() {
         if (playerOne.hasAdvantage(playerTwo)) {
             gameAdvantage = Optional.of(playerOne);
         } else if (playerTwo.hasAdvantage(playerOne)) {
@@ -74,7 +71,7 @@ public class TennisGame {
         }
     }
 
-    void checkForDeuce() {
+    private void checkForDeuce() {
         isDeuce = playerOne.isDeuce(playerTwo);
     }
 
@@ -86,27 +83,12 @@ public class TennisGame {
         } else if (this.gameAdvantage.isPresent()) {
             scoreDisplayerPort.displayAdvantage(this.gameAdvantage.get());
         } else {
-            scoreDisplayerPort.displayGameScore(SCORE[this.playerOne.getScore()],SCORE[this.playerTwo.getScore()]);
+            scoreDisplayerPort.displayGameScore(this.playerOne.translateScore(),this.playerTwo.translateScore());
         }
     }
 
-    public Optional<Player> getGameWinner() {
-        return gameWinner;
-    }
 
-    public Player getPlayerOne() {
-        return playerOne;
-    }
-
-    public Player getPlayerTwo() {
-        return playerTwo;
-    }
-
-    public Optional<Player> getGameAdvantage() {
-        return gameAdvantage;
-    }
-
-    public boolean isDeuce() {
+    private boolean isDeuce() {
         return isDeuce;
     }
 }

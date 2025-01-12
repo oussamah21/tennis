@@ -1,8 +1,8 @@
-package com.kata.domain;
+package com.kata.tennis.domain.application;
 
-import com.kata.exception.TennisException;
-import com.kata.model.Player;
-import com.kata.ports.out.ScoreDisplayerOutputPort;
+import com.kata.tennis.domain.exception.TennisException;
+import com.kata.tennis.domain.model.Player;
+import com.kata.tennis.ports.out.ScoreDisplayerOutputPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,10 +29,6 @@ class TennisGameTest {
         playerTwo = new Player('B');
 
         tennisGame = new TennisGame(playerOne, playerTwo, scoreDisplayerPort);
-       // Mockito.doNothing().when(scoreDisplayerPort).displayGameScore(any(),any());
-        //Mockito.doNothing().when(scoreDisplayerPort).displayDeuce();
-       // Mockito.doNothing().when(scoreDisplayerPort).displayAdvantage(any());
-       // Mockito.doNothing().when(scoreDisplayerPort).displayWinner(any());
     }
 
     @Test
@@ -85,6 +81,8 @@ class TennisGameTest {
         inOrder.verify(scoreDisplayerPort).displayGameScore("15", "0");
         inOrder.verify(scoreDisplayerPort).displayGameScore("15", "15");
         inOrder.verify(scoreDisplayerPort).displayGameScore("30", "15");
+        inOrder.verify(scoreDisplayerPort).displayGameScore("30", "30");
+        inOrder.verify(scoreDisplayerPort).displayGameScore("30", "40");
         verify(scoreDisplayerPort, times(0)).displayGameScore("0", "15");
         verify(scoreDisplayerPort, times(1)).displayGameScore("15", "0");
         verify(scoreDisplayerPort, times(1)).displayGameScore("15", "15");

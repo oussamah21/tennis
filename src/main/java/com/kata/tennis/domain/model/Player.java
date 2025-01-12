@@ -1,31 +1,18 @@
-package com.kata.model;
+package com.kata.tennis.domain.model;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public class Player{
 
-    private Character name;
+    private final Character name;
 
     private int score = 0;
 
+    private static final String[] SCORE = {"0", "15", "30", "40"};
 
-    public void setName(Character name) {
-        this.name = name;
-    }
-
-    public Character getName() {
-        return name;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public Player(Character name) {
-        this.name = name;
-    }
 
     public void incrementScore(){
         this.score ++ ;
@@ -41,7 +28,10 @@ public class Player{
 
    public boolean hasAdvantage(Player otherPlayer) {
        return this.score >= 4 && this.score == otherPlayer.getScore() + 1;
+   }
 
+   public String translateScore () {
+        return SCORE[this.getScore()];
    }
 
 }

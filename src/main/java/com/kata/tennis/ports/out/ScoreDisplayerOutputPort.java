@@ -1,11 +1,11 @@
-package com.kata.ports.out;
+package com.kata.tennis.ports.out;
 
-import com.kata.model.Player;
+import com.kata.tennis.domain.model.Player;
 
 public interface ScoreDisplayerOutputPort {
      void displayGameScore(String playerOneScore, String playerTwoScore);
      void displayDeuce();
      void displayAdvantage(Player player);
      void displayWinner(Player player);
-     void displayOpeningBanner();
+
 }
