@@ -11,7 +11,7 @@ public class Player{
 
     private int score = 0;
 
-    private static final String[] SCORE = {"0", "15", "30", "40"};
+    private static final String[] SCOREDISPLAY = {"0", "15", "30", "40"};
 
 
     public void incrementScore(){
@@ -31,7 +31,7 @@ public class Player{
    }
 
    public String translateScore () {
-        return SCORE[this.getScore()];
+        return SCOREDISPLAY[this.getScore()];
    }
 
 }
